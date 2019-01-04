@@ -1,7 +1,10 @@
 <template>
     <div>
         <div class="login">
-            <h1>欢迎来到考勤管理系统</h1>
+            <div class="logoBox">
+                <img src="../assets/logo.png" alt="logo">
+            </div>
+            <h1>黄淮学院考勤系统</h1>
             <div class="from">
                 <input label="用户名" placeholder="请输入用户名" v-model="formData.username" />
                 <input label="密码" placeholder="请输入密码" type="password" v-model="formData.password" /> 
@@ -37,15 +40,27 @@
 
 <style scoped lang='less'>
 .login {
-    padding: 0.2rem;
+    padding: 0.5rem;
     height: 100vh;
-    background: #f1f1f1;
+    // background: skyblue;
+    background: url('../assets/loginBg.jpg') no-repeat;
+    background-size: 100% 100%;
     box-sizing:  border-box;
-    h1 {
+    .logoBox{
+        width: 1.5rem;
+        height: 1.5rem;
+        margin: 1rem auto 0;
+        img{
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    }
+     h1 {
         text-align: center;
-        font-size: 0.48rem;
+        font-size: 0.6rem;
         font-weight: 400;
-        margin: 1rem 0 0.8rem;
+        margin-bottom: 0.8rem;
+        color: #fff;
     }
 }
 .from {
@@ -54,11 +69,23 @@
         height: 1rem;
         line-height: 1rem;
         color: #333;
-        border: 1px solid #eee;
+        border: none;
         padding-left: 0.4rem;
-        margin: 0.1rem 0;
+        margin: 0.3rem 0;
         box-sizing: border-box;
+        color: #fff;
+        background: rgba(0,0,0,0.1);
     }
+    input::-webkit-input-placeholder {
+        color: #fff;
+    }
+}
+input, button {
+    border-top-left-radius: 8% 50%;
+    border-top-right-radius: 8% 50%;
+    border-bottom-right-radius: 8% 50%;
+    border-bottom-left-radius: 8% 50%;
+    outline: none;
 }
 .operation{
     margin-top: 0.4rem;

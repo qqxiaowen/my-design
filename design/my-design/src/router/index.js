@@ -4,26 +4,22 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const components = {
-    homeStudent: () => import('@/views/home/homeStudent.vue'),
-    homeTeacher: () => import('@/views/home/homeTeacher.vue'),
+    home: () => import('@/views//home.vue'),
     login: () => import('@/views/login.vue')
 }
 
 export default new Router({
   routes: [
     {
-      path: '/teacher',
-      meta:{
-          title: '教师-首页'
-      },
-      component: components.homeTeacher
+        path: '/',
+        redirect: '/login'
     },
     {
-    path: '/student',
-    meta:{
-        title: '学生-首页'
-    },
-    component: components.homeStudent
+      path: '/home',
+      meta:{
+          title: '学生考勤系统'
+      },
+      component: components.home
     },
     {
         path: '/login',
@@ -31,7 +27,6 @@ export default new Router({
             title: '登录页'
         },
         component: components.login
-
     }
   ]
 })
