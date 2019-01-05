@@ -6,8 +6,8 @@
             </div>
             <h1>黄淮学院考勤系统</h1>
             <div class="from">
-                <input label="用户名" class="buttonInputStyle" placeholder="请输入用户名" v-model="formData.username" />
-                <input label="密码" class="buttonInputStyle" placeholder="请输入密码" type="password" v-model="formData.password" /> 
+                <input class="buttonInputStyle" placeholder="请输入用户名" v-model="formData.username" />
+                <input class="buttonInputStyle" placeholder="请输入密码" type="password" v-model="formData.password" /> 
             </div>
             <div class="operation">
                 <mt-button class="buttonInputStyle" type="primary" @click="handleLogin">登录</mt-button>
@@ -68,8 +68,6 @@
 .from {
     input {
         width: 100%;
-        height: 1rem;
-        line-height: 1rem;
         color: #333;
         border: none;
         padding-left: 0.4rem;

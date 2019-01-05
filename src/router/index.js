@@ -8,7 +8,8 @@ const components = {
     login: () => import('@/views/login.vue'),
     home: () => import('@/views/home.vue'),
     personalCenter: () => import('@/views/personalCenter.vue'),
-    userPassword: () => import('@/views/personal/userPassword.vue')
+    userPassword: () => import('@/views/personal/userPassword.vue'),
+    userInfo: () => import('@/views/personal/userInfo')
 }
 
 export default new Router({
@@ -42,6 +43,13 @@ export default new Router({
                     title: '个人中心'
                 },
                 component: components.personalCenter
+            },
+            {
+                path: 'info',
+                meta:{
+                    title: '个人信息'
+                },
+                component: components.userInfo
             },
             {
                 path: 'password',

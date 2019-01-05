@@ -1,10 +1,10 @@
 <template>
     <div>
         <div class="buttons">
-            <div class="item firstItem">
+            <router-link to="/layout/info" class="item firstItem">
                 <i class="iconfont icon-jiantou"></i>
                 个人信息
-            </div>
+            </router-link>
             <router-link to="/layout/password" class="item">
                 <i class="iconfont icon-jiantou"></i>
                 修改密码
