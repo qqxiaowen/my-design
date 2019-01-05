@@ -5,10 +5,10 @@
                 <i class="iconfont icon-jiantou"></i>
                 个人信息
             </div>
-            <div class="item">
+            <router-link to="/layout/password" class="item">
                 <i class="iconfont icon-jiantou"></i>
                 修改密码
-            </div>
+            </router-link>
             <div class="item">
                 <i class="iconfont icon-jiantou"></i>
                 问题反馈
@@ -51,6 +51,7 @@
 .buttons {
     margin-top: 0.9rem;
     .item {
+        display: block;
         width: 100%;
         height: 1rem;
         line-height: 1rem;
