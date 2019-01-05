@@ -4,8 +4,10 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const components = {
-    home: () => import('@/views//home.vue'),
-    login: () => import('@/views/login.vue')
+    layout: () => import('@/views/layout/layout.vue'),
+    login: () => import('@/views/login.vue'),
+    home: () => import('@/views/home.vue'),
+    personalCenter: () => import('@/views/personalCenter.vue')
 }
 
 export default new Router({
@@ -15,18 +17,32 @@ export default new Router({
         redirect: '/login'
     },
     {
-      path: '/home',
-      meta:{
-          title: '学生考勤系统'
-      },
-      component: components.home
-    },
-    {
         path: '/login',
         meta:{
             title: '登录页'
         },
         component: components.login
+    },
+    {
+        path: '/layout',
+        redirect: '/layout/home',
+        component: components.layout,
+        children: [
+            {
+                path: 'home',
+                meta:{
+                    title: '用户中心'
+                },
+                component: components.home
+            },
+            {
+                path: 'myCenter',
+                meta:{
+                    title: '个人中心'
+                },
+                component: components.personalCenter
+            }
+        ]
     }
   ]
 })
