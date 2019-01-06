@@ -56,6 +56,6 @@
     }
 }
 .operation {
-    margin-top: 1rem;
+    margin-top: 1.1rem;
 }
 </style>
