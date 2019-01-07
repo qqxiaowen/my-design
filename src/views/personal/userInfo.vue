@@ -1,8 +1,14 @@
 <template>
     <div class="userinfo">
-        <mt-field label="用户名" placeholder="请输入用户名" v-model="formData.username"></mt-field>
-        <mt-field label="昵称" placeholder="请输入用户名" v-model="formData.nicheng"></mt-field>
-        <mt-field label="学号/工号" placeholder="请输入用户名" v-model="formData.number"></mt-field>
+        <div class="avatarBox">
+            <span>头像</span>
+            <img src="../../assets/logo.png" alt="">
+        </div>
+        <mt-field :disabled="operation == '编辑'" label="用户名" v-model="formData.username"></mt-field>
+        <mt-field :disabled="operation == '编辑'" label="昵称" v-model="formData.nicheng"></mt-field>
+        <mt-field :disabled="operation == '编辑'" label="班级" v-model="formData.grade"></mt-field>
+        <mt-field :disabled="operation == '编辑'" label="学号/工号" v-model="formData.number"></mt-field>
+        <mt-field v-show="operation == '编辑'" disabled label="性别" :value="formData.sex ? '男' : '女'"></mt-field>
     </div>
 </template>
 
@@ -13,7 +19,13 @@
             return {
                 operation: '编辑',
                 operationFuncText: '',
-                formData:{}
+                formData:{
+                    username: 'xiao',
+                    nicheng: '风',
+                    grade: '软工',
+                    number: '123456',
+                    sex: 1
+                }
             }
         },
         methods: {
@@ -53,5 +65,21 @@
 </script>
 
 <style scoped lang='less'>
-
+.userinfo {
+    .avatarBox {
+        display: flex;
+        justify-content: space-between;
+        height: 48px;
+        align-items: center;
+        padding: 0 10px;
+        background: #fff;
+        img {
+            width: 0.4rem;
+            height: 0.4rem;
+        }
+    }
+    /deep/ .mint-cell-value input{
+        text-align: right;
+    }
+}
 </style>
