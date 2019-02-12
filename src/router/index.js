@@ -9,7 +9,8 @@ const components = {
     home: () => import('@/views/home.vue'),
     personalCenter: () => import('@/views/personalCenter.vue'),
     userPassword: () => import('@/views/personal/userPassword.vue'),
-    userInfo: () => import('@/views/personal/userInfo')
+    userInfo: () => import('@/views/personal/userInfo'),
+    classInfo: () => import('@/views/studentInfo/classInfo.vue')
 }
 
 const router =  new Router({
@@ -20,7 +21,7 @@ const router =  new Router({
     },
     {
         path: '/login',
-        meta:{
+        meta: {
             title: '登录页'
         },
         component: components.login
@@ -32,31 +33,38 @@ const router =  new Router({
         children: [
             {
                 path: 'home',
-                meta:{
+                meta: {
                     title: '用户中心'
                 },
                 component: components.home
             },
             {
                 path: 'myCenter',
-                meta:{
+                meta: {
                     title: '个人中心'
                 },
                 component: components.personalCenter
             },
             {
                 path: 'info',
-                meta:{
+                meta: {
                     title: '个人信息'
                 },
                 component: components.userInfo
             },
             {
                 path: 'password',
-                meta:{
+                meta: {
                     title: '修改密码'
                 },
                 component: components.userPassword
+            },
+            {
+                path: 'classInfo',
+                meta: {
+                    title: '班级信息'
+                },
+                component: components.classInfo
             }
         ]
     }

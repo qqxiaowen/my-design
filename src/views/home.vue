@@ -4,13 +4,13 @@
             <img src="../assets/bander.png" alt="">
         </div>
         <div class="content">
+            <router-link to="/layout/classInfo" class="item">
+                <img src="../assets/card.png" alt="">
+                <span>学生信息</span>
+            </router-link>
             <div class="item">
                 <img src="../assets/course.png" alt="">
                 <span>课程表</span>
-            </div>
-            <div class="item">
-                <img src="../assets/card.png" alt="">
-                <span>学生信息</span>
             </div>
             <div class="item">
                 <img src="../assets/check.png" alt="">
@@ -54,6 +54,7 @@
     flex-wrap: wrap;
     padding: 0 0.6rem;
     .item {
+        display: block;
         width: 2.7rem;
         height: 1.7rem;
         line-height: 1.7rem;
