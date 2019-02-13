@@ -10,7 +10,9 @@ const components = {
     personalCenter: () => import('@/views/personalCenter.vue'),
     userPassword: () => import('@/views/personal/userPassword.vue'),
     userInfo: () => import('@/views/personal/userInfo'),
-    classInfo: () => import('@/views/studentInfo/classInfo.vue')
+    classInfo: () => import('@/views/studentInfo/classInfo.vue'),
+    addClassInfo: () => import('@/views/studentInfo/addClassInfo.vue'),
+    classInfoDetail: () => import('@/views/studentInfo/classInfoDetail.vue')
 }
 
 const router =  new Router({
@@ -65,7 +67,22 @@ const router =  new Router({
                     title: '班级信息'
                 },
                 component: components.classInfo
-            }
+            },
+            {
+                path: 'addClassInfo',
+                meta: {
+                    title: '新增班级信息'
+                },
+                component: components.addClassInfo
+            },
+            {
+                path: 'classInfoDetail/:id',
+                meta: {
+                    title: '班级信息详情页'
+                },
+                component: components.classInfoDetail
+            },
+            
         ]
     }
   ]

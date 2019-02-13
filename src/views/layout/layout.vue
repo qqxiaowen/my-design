@@ -2,7 +2,7 @@
     <div class="layout">
         <Header />
         <div class="content">
-            <router-view />
+            <router-view/>
         </div>
         <Footer />
     </div>
@@ -27,6 +27,6 @@ import Footer from '@/components/Footer'
     height: 100%;
     box-sizing: border-box;
     padding: 1rem 0 ;
-    background: #f1f1f1;
+    background: #fff;
 }
 </style>

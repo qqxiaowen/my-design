@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="myCenter">
         <div class="buttons">
             <router-link to="/layout/info" class="item firstItem">
                 <i class="iconfont icon-jiantou"></i>
@@ -48,8 +48,12 @@
 </script>ß
 
 <style scoped lang='less'>
+.myCenter {
+    height: 100%;
+    background: #f1f1f1;
+}
 .buttons {
-    margin-top: 0.9rem;
+    padding-top: 0.9rem;
     .item {
         display: block;
         width: 100%;

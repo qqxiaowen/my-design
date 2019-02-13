@@ -19,7 +19,7 @@
                     <i class="arrows"></i>
                 </label>
                 <div class="class">
-                    <div class="class-title" v-for="(cItem,cIndex) in mItem.classInfo" :key="cIndex">
+                    <div class="class-title" v-for="(cItem,cIndex) in mItem.classInfo" :key="cIndex" @click="handleDetail(cItem.id)">
                         <span>{{cItem.name}} </span>
                         <span>{{cItem.number}} <i class="arrows"></i></span>
                     </div>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import bus from '../../bus/index.js'
     export default {
         data() {
             return {
@@ -46,11 +47,13 @@
                                 classInfo: [
                                     {
                                         name: '软工1401B',
-                                        number: 77
+                                        number: 77,
+                                        id:'class77'
                                     },
                                     {
                                         name: '软工1501B',
-                                        number: 55
+                                        number: 55,
+                                        id:'class55'
                                     }
                                 ]
                             },
@@ -59,11 +62,13 @@
                                 classInfo: [
                                     {
                                         name: '网工1501B',
-                                        number: 66
+                                        number: 66,
+                                        id:'class66'
                                     },
                                     {
                                         name: '网工1601B',
-                                        number: 77
+                                        number: 77,
+                                        id:'class777'
                                     }
                                 ]
                             }
@@ -88,8 +93,22 @@
                             }
                         ]
                     }
-                ]
+                ],
+                child:'子组件中的值'
             }
+        },
+        methods: {
+            // 跳转班级详情页
+            handleDetail(id) {
+                this.$router.push(`/layout/classInfoDetail/${id}`)
+            }
+        },
+        mounted() {
+            bus.$emit('nextPage', '新增', '/layout/addClassInfo')
+        },
+        // 注销组件时，将状态值至空，不影响其他页面的头部组件
+        beforeDestroy() {
+            bus.$emit('nextPage','', '')
         }
     }
 </script>

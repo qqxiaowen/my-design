@@ -136,6 +136,13 @@
 
 <style scoped lang='less'>
 .userinfo {
+    /deep/ .mint-field-core:disabled {
+        background: #fff;
+        color: #333;
+    }
+    /deep/ .mint-field-core {
+        color: #6d6e71;
+    }
     .itemBox {
         display: flex;
         justify-content: space-between;
