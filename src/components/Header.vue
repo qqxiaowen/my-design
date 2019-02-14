@@ -6,7 +6,8 @@
                 <mt-button icon="back">返回</mt-button>
             </div>
             <mt-button v-show="operationText" @click="handleEmit" slot="right">{{operationText}}</mt-button>
-            <mt-button @click="skipNextPage" slot="right">{{nextPageText}}</mt-button>
+            <mt-button v-show="nextPageText" @click="skipNextPage" slot="right">{{nextPageText}}</mt-button>
+            <mt-button v-show="operationOne" @click="handleClickOperation" slot="right">{{operationOne}}</mt-button>
         </mt-header>
     </div>
 </template>
@@ -22,7 +23,9 @@
                 operationText : '',
                 // 跳转到另一个页面的操作按钮
                 nextPageText:'',
-                nextPageUrl:''
+                nextPageUrl:'',
+                // 一个页面的单个操作按钮
+                operationOne: ''
             }
         },
         methods: {
@@ -32,8 +35,11 @@
             },
             // 跳转方法
             skipNextPage() {
-                console.log(this.nextPageUrl)
                 this.$router.push(this.nextPageUrl)
+            },
+            // 一页页面中的单个操作按钮
+            handleClickOperation() {
+                bus.$emit('operationOneBack', '000')
             }
         },
         created() {
@@ -44,6 +50,10 @@
             bus.$on('titleText', text => {
                 this.titleText = text
             })
+            // 单个操作按钮文本
+            bus.$on('operationOne', text => {
+                this.operationOne = text
+            })
             // 修改个人信息页（一个页面中）的操作
             bus.$on('status', text => {
                 this.operationText = text
@@ -53,6 +63,7 @@
                 this.nextPageText = text,
                 this.nextPageUrl = url
             })
+            
         },
         watch: {
             $route(to,from) {
