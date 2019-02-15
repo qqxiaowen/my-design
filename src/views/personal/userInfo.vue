@@ -29,9 +29,9 @@
 </template>
 
 <script>
-    import bus from '../../bus/index.js'
-    import axios from 'axios'
-    import {MessageBox} from 'mint-ui'
+import bus from '../../bus/index.js'
+import axios from 'axios'
+import {MessageBox} from 'mint-ui'
     export default {
         data() {
             return {
@@ -79,7 +79,7 @@
             // 头部组件传值
             bus.$emit('status',this.operation)
             bus.$on('operation', val => {
-                if(val == '编辑') {
+                if (val == '编辑') {
                     this.operationFuncText = '编辑'
                     this.operation = '保存'
                     // console.log('这是编辑状态')
@@ -99,7 +99,7 @@
                 bus.$emit('status',this.operation)
             },
             operationFuncText(val){
-                if(val == '保存') {
+                if (val == '保存') {
                     console.log('点击保存按钮,调用保存接口')
                     // 改变操作按钮
                     this.operation = '编辑'
@@ -110,11 +110,11 @@
         beforeRouteLeave(to, from, next){
             let isChangeNum = 0
             for (let key in this.oldData) {
-                if(this.oldData[key] != this.formData[key]) {
+                if (this.oldData[key] != this.formData[key]) {
                     isChangeNum ++
                 }
             }
-            if(isChangeNum){
+            if (isChangeNum){
                 console.log('有数据变化')
                 MessageBox({
                     showCancelButton: true,
@@ -123,7 +123,7 @@
                     title: '警告',
                     message: '还未保存修改的数据，是否退出？'
                 }).then(action => {
-                    if(action == 'confirm') {
+                    if (action == 'confirm') {
                         next()
                     }
                 })

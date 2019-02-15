@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import {MessageBox} from 'mint-ui'
+import {MessageBox} from 'mint-ui'
     export default {
         data() {
             return {
@@ -45,7 +45,7 @@
             }
         }
     }
-</script>ß
+</script>
 
 <style scoped lang='less'>
 .myCenter {

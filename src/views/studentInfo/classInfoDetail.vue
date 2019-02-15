@@ -27,7 +27,6 @@ import bus from '../../bus'
     export default {
         data() {
             return {
-                classId: null,
                 classInfo: {}
             }
         },
@@ -45,21 +44,21 @@ import bus from '../../bus'
                     ]
                 }
                 this.classInfo = classInfo
-                bus.$emit('titleText',this.classInfo.name)
+                bus.$emit('titleText', this.classInfo.name)
             }
         },
-        created() {
+        mounted() {
             const {id} = this.$route.params
             this.getClassDetail(id)
+        },
+        beforeDestroy() {
+            bus.$emit('titleText', '')
         }
         
     }
 </script>
 
 <style scoped lang="less">
-.classDetail {
-   
-}
 .tableStyle {
     border-collapse: collapse;
     table-layout: fixed;

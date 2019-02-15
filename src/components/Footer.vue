@@ -1,10 +1,10 @@
 <template>
     <div class="footer">
-        <router-link to='/layout/home' class="item">
+        <router-link to="/layout/home" class="item">
             <i class="iconfont icon-shouye"></i>
             <span>用户中心</span>
         </router-link>
-        <router-link to='/layout/myCenter' class="item">
+        <router-link to="/layout/myCenter" class="item">
             <i class="iconfont icon-wode1"></i>
             个人中心
         </router-link>

@@ -4,14 +4,14 @@
             <span>院系：</span>
             <select class="selectItem" v-model="SelectFacultyId">
                 <option value="0">请选择一个院系</option>
-                <option v-for="item in facultyCatalog" :key="item.id" :value=item.id>{{item.faculty}}</option>
+                <option v-for="item in facultyCatalog" :key="item.id" :value="item.id">{{item.faculty}}</option>
             </select>
         </div>
         <div class="item">
             <span>专业：</span>
             <select class="selectItem" v-model="SelectmajorId">
                 <option value="0">请选择一个专业</option>
-                <option v-for="item in majorCatalog" :key="item.mId" :value=item.mId>{{item.mName}}</option>
+                <option v-for="item in majorCatalog" :key="item.mId" :value="item.mId">{{item.mName}}</option>
             </select>
         </div>
         <div class="item">
@@ -26,6 +26,7 @@
 
 <script>
 import bus from '../../bus/index.js'
+import {Toast} from 'mint-ui'
     export default {
         data() {
             return {
@@ -140,28 +141,32 @@ import bus from '../../bus/index.js'
         },
         watch: {
             opration(val) {
-                if(val) {
+                if (val) {
                     this.opration = false
-                    if(this.SelectFacultyId != 0 && this.SelectmajorId != 0 && this.SelectclassId != 0) {
+                    if (this.SelectFacultyId != 0 && this.SelectmajorId != 0 && this.SelectclassId != 0) {
                         console.log('调用添加接口')
-                    }else {
-                        console.log('请选择表单')
+                    } else {
+                        Toast('请先选择表单')
                     }
                 }
             },
             SelectFacultyId(val) {
                 this.facultyCatalog.forEach(item => {
-                    if(item.id == val) {
+                    if (item.id == val) {
                         this.majorCatalog = item.major
                     }
                 });
+                this.classCatalog = []
+                this.SelectmajorId = 0
+                this.SelectclassId = 0
             },
             SelectmajorId(val) {
                 this.majorCatalog.forEach(item => {
-                    if(item.mId == val) {
+                    if (item.mId == val) {
                         this.classCatalog = item.mClasss
                     }
                 });
+                this.SelectclassId = 0
             }
         },
         // 注销组件时，将状态值至空，不影响其他页面的头部组件

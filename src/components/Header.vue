@@ -13,7 +13,7 @@
 </template>
 
 <script>
-    import bus from '../bus/index.js'
+import bus from '../bus/index.js'
     export default {
         data() {
             return {

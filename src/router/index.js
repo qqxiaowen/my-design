@@ -16,76 +16,76 @@ const components = {
 }
 
 const router =  new Router({
-  routes: [
-    {
-        path: '/',
-        redirect: '/login'
-    },
-    {
-        path: '/login',
-        meta: {
-            title: '登录页'
+    routes: [
+        {
+            path: '/',
+            redirect: '/login'
         },
-        component: components.login
-    },
-    {
-        path: '/layout',
-        redirect: '/layout/home',
-        component: components.layout,
-        children: [
-            {
-                path: 'home',
-                meta: {
-                    title: '用户中心'
-                },
-                component: components.home
+        {
+            path: '/login',
+            meta: {
+                title: '登录页'
             },
-            {
-                path: 'myCenter',
-                meta: {
-                    title: '个人中心'
+            component: components.login
+        },
+        {
+            path: '/layout',
+            redirect: '/layout/home',
+            component: components.layout,
+            children: [
+                {
+                    path: 'home',
+                    meta: {
+                        title: '用户中心'
+                    },
+                    component: components.home
                 },
-                component: components.personalCenter
-            },
-            {
-                path: 'info',
-                meta: {
-                    title: '个人信息'
+                {
+                    path: 'myCenter',
+                    meta: {
+                        title: '个人中心'
+                    },
+                    component: components.personalCenter
                 },
-                component: components.userInfo
-            },
-            {
-                path: 'password',
-                meta: {
-                    title: '修改密码'
+                {
+                    path: 'info',
+                    meta: {
+                        title: '个人信息'
+                    },
+                    component: components.userInfo
                 },
-                component: components.userPassword
-            },
-            {
-                path: 'classInfo',
-                meta: {
-                    title: '班级信息'
+                {
+                    path: 'password',
+                    meta: {
+                        title: '修改密码'
+                    },
+                    component: components.userPassword
                 },
-                component: components.classInfo
-            },
-            {
-                path: 'addClassInfo',
-                meta: {
-                    title: '新增班级信息'
+                {
+                    path: 'classInfo',
+                    meta: {
+                        title: '班级信息'
+                    },
+                    component: components.classInfo
                 },
-                component: components.addClassInfo
-            },
-            {
-                path: 'classInfoDetail/:id',
-                meta: {
-                    title: '班级信息详情页'
+                {
+                    path: 'addClassInfo',
+                    meta: {
+                        title: '新增班级信息'
+                    },
+                    component: components.addClassInfo
                 },
-                component: components.classInfoDetail
-            },
-            
-        ]
-    }
-  ]
+                {
+                    path: 'classInfoDetail/:id',
+                    meta: {
+                        title: '班级信息详情页'
+                    },
+                    component: components.classInfoDetail
+                },
+                
+            ]
+        }
+    ]
 })
 
 export default router
