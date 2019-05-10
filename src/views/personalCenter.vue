@@ -9,10 +9,6 @@
                 <i class="iconfont icon-jiantou"></i>
                 修改密码
             </router-link>
-            <div class="item">
-                <i class="iconfont icon-jiantou"></i>
-                问题反馈
-            </div>
         </div>
         <div class="loginOutBox">
             <mt-button class="buttonInputStyle" @click="handleLoginOut" type="primary">退出登录</mt-button>
@@ -38,8 +34,16 @@ import {MessageBox} from 'mint-ui'
                     message: '确定退出登录？'
                 }).then(action => {
                     if(action == 'confirm') {
-                        console.log('调用退出登录接口，清空vuex')
-                        this.$router.push('/login')
+                        
+                        this.$axios.get('/user/logout').then(res => {
+
+                            this.$store.commit('CHANGEINFO', '');
+
+                            setTimeout( () => {
+                                this.$router.push('/login')
+                            }, 500)
+                        })
+                        
                     }
                 })
             }

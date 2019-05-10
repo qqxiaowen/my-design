@@ -6,7 +6,7 @@
             </div>
             <h1>黄淮学院考勤系统</h1>
             <div class="from">
-                <input class="buttonInputStyle" placeholder="请输入用户名" v-model="formData.username" />
+                <input class="buttonInputStyle" placeholder="请输入用户名" v-model="formData.numId" />
                 <input class="buttonInputStyle" placeholder="请输入密码" type="password" v-model="formData.password" /> 
             </div>
             <div class="operation">
@@ -22,7 +22,7 @@ import {Toast} from 'mint-ui'
         data() {
             return {
                 formData: {
-                    username: '',
+                    numId: '',
                     password: ''
                 }
             }
@@ -30,11 +30,23 @@ import {Toast} from 'mint-ui'
         methods: {
             handleLogin() {
                 console.log('这是表单里的数据:', this.formData)
-                if(!this.formData.username || !this.formData.password) {
+                if (!this.formData.numId || !this.formData.password) {
                     Toast('请输入用户名或密码')
-                }else {
-                    console.log('调用登录接口，成功后跳转首页')
-                    this.$router.push('/layout')
+                } else {
+                    this.$axios.post(`/user/login`, this.formData).then(res => {
+                        if (res.code ==0) {
+                            Toast('登录成功');
+                            // 存入vuex
+                            let userinfo = res.data;
+                            this.$store.commit('CHANGEINFO',userinfo);
+                            setTimeout(() => {
+                                this.$router.push(`layout/home`)
+                            }, 500);
+                        } else {
+                            Toast(res.msg);
+                        }
+                    })
+                  
                 }
             }
         }

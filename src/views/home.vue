@@ -25,10 +25,19 @@
 </template>
 
 <script>
+    import {Toast} from 'mint-ui'
     export default {
         data() {
             return {
 
+            }
+        },
+        mounted() {
+            if (!this.$store.state.userinfo || !this.$store.state.userinfo._id) {
+                Toast('请先登录')
+                setTimeout(() => {
+                    this.$router.push('/login')
+                }, 300);
             }
         }
     }

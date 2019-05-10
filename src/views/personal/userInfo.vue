@@ -7,10 +7,11 @@
             </label>
             <img :src="formData.avatar" alt="">
         </div>
-        <mt-field :disabled="operation == '编辑'" label="用户名" v-model="formData.username"></mt-field>
-        <mt-field :disabled="operation == '编辑'" label="昵称" v-model="formData.nicheng"></mt-field>
-        <mt-field :disabled="operation == '编辑'" label="班级" v-model="formData.grade"></mt-field>
-        <mt-field :disabled="operation == '编辑'" label="学号/工号" v-model="formData.number"></mt-field>
+        <mt-field class="disabled" disabled label="学号/工号" v-model="formData.numId"></mt-field>
+        <mt-field class="disabled" disabled label="用户名" v-model="formData.username"></mt-field>
+        <mt-field class="disabled" v-if="formData.grade" disabled label="班级" v-model="formData.grade.gradeName"></mt-field>
+        <mt-field class="disabled" v-if="formData.faculty" disabled label="院系" v-model="formData.faculty.facultyName"></mt-field>
+        <mt-field :disabled="operation == '编辑'" label="简介" v-model="formData.desc"></mt-field>
         <div class="itemBox styleBox sexBox">
             <span>性别</span>
             <div v-if="operation == '保存'">
@@ -29,6 +30,7 @@
 </template>
 
 <script>
+import {Toast} from 'mint-ui'
 import bus from '../../bus/index.js'
 import axios from 'axios'
 import {MessageBox} from 'mint-ui'
@@ -38,22 +40,9 @@ import {MessageBox} from 'mint-ui'
                 operation: '编辑',
                 token: '',
                 operationFuncText : '',
-                formData: {
-                    avatar: 'http://pbl.mawenli.xyz/avatar7.png',
-                    username: 'xiao',
-                    nicheng: '风',
-                    grade: '软工',
-                    number: '123456',
-                    sex: 1
-                },
-                oldData: {
-                    avatar: 'http://pbl.mawenli.xyz/avatar7.png',
-                    username: 'xiao',
-                    nicheng: '风',
-                    grade: '软工',
-                    number: '123456',
-                    sex: 1
-                }
+                formData: {},
+                oldData: {},
+                isUpdata: false
             }
         },
         methods: {
@@ -89,6 +78,9 @@ import {MessageBox} from 'mint-ui'
                 }
                 // 这里面不能直接函数，会触发两次 为什么？
             })
+
+            this.formData = {...this.$store.state.userinfo};
+            this.oldData = {...this.$store.state.userinfo};
         },
         // 注销组件时，将状态值至空，不影响其他页面的头部组件
         beforeDestroy() {
@@ -100,7 +92,24 @@ import {MessageBox} from 'mint-ui'
             },
             operationFuncText(val){
                 if (val == '保存') {
-                    console.log('点击保存按钮,调用保存接口')
+                    // console.log('点击保存按钮,调用保存接口')
+                    let url = '';
+                    let id = this.$store.state.userinfo._id
+                    if (this.$store.state.userinfo.faculty) {
+                        // 教师用户
+                        url = '/user/teacher';
+                    } else {
+                        // 学生用户
+                        url = '/user/student';
+                    }
+                    this.$axios.put(`${url}/${id}`, this.formData).then(res => {
+                        if (res.code == 0) {
+                            Toast('修改成功');
+                            this.isUpdata = true;
+                            // 赋值vuex
+                            this.$store.commit('CHANGEINFO', this.formData);
+                        }
+                    })
                     // 改变操作按钮
                     this.operation = '编辑'
                 }
@@ -114,8 +123,8 @@ import {MessageBox} from 'mint-ui'
                     isChangeNum ++
                 }
             }
-            if (isChangeNum){
-                console.log('有数据变化')
+            if (isChangeNum && !this.isUpdata){
+                // console.log('有数据变化')
                 MessageBox({
                     showCancelButton: true,
                     cancelButtonClass: 'ensure',
@@ -136,12 +145,19 @@ import {MessageBox} from 'mint-ui'
 
 <style scoped lang='less'>
 .userinfo {
-    /deep/ .mint-field-core:disabled {
-        background: #fff;
-        color: #333;
-    }
+    // /deep/ .mint-field-core:disabled {
+    //     background: #fff;
+    //     color: #6d6e71;
+    // }
     /deep/ .mint-field-core {
-        color: #6d6e71;
+        // color: #333;
+        background: #fff;
+    }
+    .disabled {
+        color: rgb(180, 179, 179);
+        /deep/ input {
+            color: rgb(180, 179, 179);
+        }
     }
     .itemBox {
         display: flex;

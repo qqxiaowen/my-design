@@ -1,7 +1,7 @@
 <template>
     <div class="password">
        <div class="form">
-            <input class="buttonInputStyle" placeholder="请输入旧密码" type="password" v-model="oldPassword" />
+            <input class="buttonInputStyle" placeholder="请输入旧密码" type="password" v-model="password" />
             <input class="buttonInputStyle" placeholder="请输入新密码" type="password" v-model="newPassword" />
             <input class="buttonInputStyle" placeholder="再次输入新密码" type="password" v-model="agePassword" />
        </div>
@@ -16,19 +16,31 @@
     export default {
         data() {
             return {
-                oldPassword: '',
+                password: '',
                 newPassword: '',
                 agePassword: ''
             }
         },
         methods: {
             handlePassword() {
-                if (!this.oldPassword || !this.newPassword || !this.agePassword) {
+                if (!this.password || !this.newPassword || !this.agePassword) {
                     Toast('请完善表单')
                 } else if (this.newPassword != this.agePassword) {
                     Toast('两次输入的密码不一致')
                 } else {
-                    console.log('表单数据：',this.oldPassword,this.agePassword)
+                    let id = this.$store.state.userinfo._id;
+                    this.$axios.put(`/user/password/${id}`, {password: this.password, newPassword: this.newPassword}).then(res => {
+                        if (res.code == 0) {
+                            Toast(res.msg);
+                            // 清空vuex
+                            this.$store.commit('CHANGEINFO', '');
+                            setTimeout(() => {
+                                this.$router.push(`/login`);
+                            }, 500);
+                        } else {
+                            Toast(res.msg);
+                        }
+                    })
                 }
             }
         }

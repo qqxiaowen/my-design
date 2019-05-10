@@ -104,7 +104,7 @@ import bus from '../../bus/index.js'
             }
         },
         mounted() {
-            bus.$emit('nextPage', '新增', '/layout/addClassInfo')
+            // bus.$emit('nextPage', '新增', '/layout/addClassInfo')
         },
         // 注销组件时，将状态值至空，不影响其他页面的头部组件
         beforeDestroy() {
