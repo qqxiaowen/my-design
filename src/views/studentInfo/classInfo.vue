@@ -1,114 +1,106 @@
 <template>
     <div class="class-info">
         <div class="faculty" v-for="(item,index) in tableInfo" :key=index>
-            <!-- 这里的inpit 的 id 和label 的 for 循环的时候注意处理 -->
             <input class="faculty-input" type="checkbox" :id="'faculty' + index">
-            <label class="faculty-title" :for="'faculty' + index">
+            <label class="faculty-title" :for="'faculty' + index" @click="isMajorNull(item.majorData)">
                 <div class="faculty-title-left">
-                    <i class="iconfont icon-Shapecopy"></i> {{item.faculty }}
+                    <i class="iconfont icon-Shapecopy"></i> {{ item.facultyName }}
                 </div>
                 <i class="arrows"></i>
             </label>
-            <div class="major" v-for="(mItem,mIndex) in item.major" :key="mIndex">
-                <!-- 这里的inpit 的 id 和label 的 for 循环的时候注意处理 -->
+            <div class="major" v-show="item.majorData[0]" v-for="(mItem,mIndex) in item.majorData" :key="mIndex">
                 <input class="major-input" type="checkbox" :id="'major' + index + mIndex">
-                <label class="major-title" :for="'major' + index + mIndex">
+                <label class="major-title" :for="'major' + index + mIndex" @click="isGradeNull(mItem.gradeData)">
                     <div class="major-title-left">
-                        <i class="iconfont icon-Shapecopy"></i> {{mItem.name}}
+                        <i class="iconfont icon-Shapecopy"></i> {{mItem.majorName}}
                     </div>
                     <i class="arrows"></i>
                 </label>
-                <div class="class">
-                    <div class="class-title" v-for="(cItem,cIndex) in mItem.classInfo" :key="cIndex" @click="handleDetail(cItem.id)">
-                        <span>{{cItem.name}} </span>
-                        <span>{{cItem.number}} <i class="arrows"></i></span>
+                <div class="class" v-show="mItem.gradeData && mItem.gradeData[0] && mItem.gradeData[0]._id">
+                    <div class="class-title"  v-for="(cItem,cIndex) in mItem.gradeData" :key="cIndex" @click="handleDetail(cItem._id)">
+                        <span>{{cItem.gradeName}} </span>
+                        <!-- <span>{{cItem.number}} <i class="arrows"></i></span> -->
                     </div>
                 </div>
             </div>
 
-
         </div>
 
+        <!-- <div v-if="tableInfo[0] && tableInfo[0].desc">
+            {{tableInfo[0].majorData[0].desc}}
+        </div> -->
     </div>
 </template>
 
 <script>
-import bus from '../../bus/index.js'
+    import {Toast} from 'mint-ui'
     export default {
         data() {
             return {
-                tableInfo: [
-                    {
-                        faculty: '信息工程学院',
-                        abc: 100,
-                        major: [
-                            {
-                                name: '软件工程',
-                                classInfo: [
-                                    {
-                                        name: '软工1401B',
-                                        number: 77,
-                                        id:'class77'
-                                    },
-                                    {
-                                        name: '软工1501B',
-                                        number: 55,
-                                        id:'class55'
-                                    }
-                                ]
-                            },
-                            {
-                                name: '网络工程',
-                                classInfo: [
-                                    {
-                                        name: '网工1501B',
-                                        number: 66,
-                                        id:'class66'
-                                    },
-                                    {
-                                        name: '网工1601B',
-                                        number: 77,
-                                        id:'class777'
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        faculty: '信息工程学院',
-                        abc: 101,
-                        major: [
-                            {
-                                name: '软件工程',
-                                classInfo: [
-                                    {
-                                        name: '软工1401B',
-                                        number: 77
-                                    },
-                                    {
-                                        name: '软工1501B',
-                                        number: 55
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ],
-                child:'子组件中的值'
+                tableInfo: []
             }
         },
         methods: {
             // 跳转班级详情页
             handleDetail(id) {
                 this.$router.push(`/layout/classInfoDetail/${id}`)
+            },
+            // 获取信息
+            getFaculty() {
+                let updataMajor = 0;
+                let updataGrade = 0;
+                let majorNum = 0;
+                this.$axios.get(`/faculty`).then( res => {
+                    res.data.forEach(item=> {
+                        this.$axios.get(`/major/faculty/${item._id}`).then(res2 => {
+                            if (!res2.data[0]) {
+                                item.majorData = {isNull: true};
+                            } else {
+                                item.majorData = res2.data;
+                                updataGrade ++;
+                                
+                                res2.data.forEach( (item2,index) => {
+                                    this.$axios.get(`/grade/major/${item2._id}`).then(res3 => {
+                                        if (!res3.data[0]) {
+                                            item2.gradeData = {isNull: true}
+                                        } else {
+                                            item2.gradeData = res3.data;
+                                        }
+                                        if (index == res2.data.length -1) {
+                                            // console.log('一个major下的grade渲染结束')
+                                            majorNum ++
+                                            if(majorNum == updataGrade) {
+                                                // console.log('渲染结束')
+                                                this.tableInfo = res.data;
+                                            }
+                                        }
+                                    })
+                                })
+                            }
+                            updataMajor ++ ;
+                           
+                        })
+                    })
+                   
+                })
+            },
+
+
+            // 判断是否为空
+            isMajorNull(ele) {
+                if (ele.isNull) {
+                    Toast('该院系下暂无数据')
+                }
+            },
+            isGradeNull(ele) {
+                if (ele.isNull) {
+                    Toast('该专业下暂无数据')
+                }
             }
+           
         },
-        mounted() {
-            // bus.$emit('nextPage', '新增', '/layout/addClassInfo')
-        },
-        // 注销组件时，将状态值至空，不影响其他页面的头部组件
-        beforeDestroy() {
-            bus.$emit('nextPage','', '')
+        created() {
+            this.getFaculty()
         }
     }
 </script>
@@ -128,8 +120,7 @@ import bus from '../../bus/index.js'
             transform: rotateZ(135deg)
         }
         .faculty-input:checked ~ .major {
-            // min-height: 0.8rem;
-            max-height: 3rem;
+            display: block;
         }
     &-title {
         display: flex;
@@ -151,15 +142,14 @@ import bus from '../../bus/index.js'
 }
 .major {
     padding: 0.1rem 0 0 0.4rem;
-    max-height: 0;
-    // min-height: 0;
+    display: none;
     overflow: hidden;
-    transition: max-height 1s ease;
+    transition: all 1s ease;
     .major-input:checked ~ &-title .arrows {
         transform: rotateZ(135deg)
     }
     .major-input:checked ~ .class .class-title {
-        max-height: 1rem;
+        display: block;
         border-color: #e8e8e8;
     }
     &-title {
@@ -190,8 +180,8 @@ import bus from '../../bus/index.js'
         border-bottom: 1px solid transparent;
 
         overflow: hidden;
-        max-height: 0;
-        transition: max-height 1s ease;
+        display: none;
+        transition: all 1s ease;
         span {
             font-size: 0.28rem;
             &:last-child {

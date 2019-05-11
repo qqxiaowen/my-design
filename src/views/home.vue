@@ -4,14 +4,14 @@
             <img src="../assets/bander.png" alt="">
         </div>
         <div class="content">
-            <router-link to="/layout/classInfo" class="item">
+            <router-link :to="studentUrl" class="item">
                 <img src="../assets/card.png" alt="">
                 <span>学生信息</span>
             </router-link>
-            <div class="item">
+            <router-link to="/layout/course" class="item">
                 <img src="../assets/course.png" alt="">
                 <span>课程表</span>
-            </div>
+            </router-link>
             <div class="item">
                 <img src="../assets/check.png" alt="">
                 <span>考勤</span>
@@ -29,7 +29,7 @@
     export default {
         data() {
             return {
-
+                studentUrl: '/layout/classInfo'
             }
         },
         mounted() {
@@ -38,6 +38,9 @@
                 setTimeout(() => {
                     this.$router.push('/login')
                 }, 300);
+            }
+            if (!this.$store.state.userinfo.faculty) {
+                this.studentUrl = `/layout/classInfoDetail/${this.$store.state.userinfo.grade._id}`
             }
         }
     }

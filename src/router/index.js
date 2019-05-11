@@ -11,8 +11,8 @@ const components = {
     userPassword: () => import('@/views/personal/userPassword.vue'),
     userInfo: () => import('@/views/personal/userInfo'),
     classInfo: () => import('@/views/studentInfo/classInfo.vue'),
-    addClassInfo: () => import('@/views/studentInfo/addClassInfo.vue'),
-    classInfoDetail: () => import('@/views/studentInfo/classInfoDetail.vue')
+    classInfoDetail: () => import('@/views/studentInfo/classInfoDetail.vue'),
+    course: () => import('../views/course/courseList.vue')
 }
 
 const router =  new Router({
@@ -69,20 +69,19 @@ const router =  new Router({
                     component: components.classInfo
                 },
                 {
-                    path: 'addClassInfo',
-                    meta: {
-                        title: '新增班级信息'
-                    },
-                    component: components.addClassInfo
-                },
-                {
                     path: 'classInfoDetail/:id',
                     meta: {
                         title: '班级信息详情页'
                     },
                     component: components.classInfoDetail
                 },
-                
+                {
+                    path: 'course',
+                    meta: {
+                        title: '课程信息'
+                    },
+                    component: components.course
+                },
             ]
         }
     ]

@@ -10,14 +10,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item,index) in classInfo.student" :key="index">
+                <tr v-for="item in classInfo" :key="item._id">
                     <td><img v-lazy="item.avatar"></td>
-                    <td>{{item.number}}</td>
-                    <td>{{item.name}}</td>
-                    <td>{{item.classText}}</td>
+                    <td>{{item.numId}}</td>
+                    <td>{{item.username}}</td>
+                    <td>{{item.grade.gradeName}}</td>
                 </tr>
             </tbody>
         </table>
+        <div v-if="nullTable" class="null-table">该班级下还没有添加学生</div>
     </div>
 </template>
 
@@ -27,32 +28,37 @@ import bus from '../../bus'
     export default {
         data() {
             return {
-                classInfo: {}
+                classInfo: {},
+                nullTable: false,
             }
         },
         methods: {
             // 获取班级信息详情
             getClassDetail(id) {
-                let classInfo = {
-                    id: 'class77',
-                    name: '软工1501B',
-                    num: 77,
-                    student: [
-                        {id:'student01', number:'1534120011', avatar: 'http://pbl.mawenli.xyz/avatar1.png', name:'张三', classText:'软工1501B'},
-                        {id:'student02', number:'1534120012', avatar: 'http://pbl.mawenli.xyz/avatar2.png', name:'张四', classText:'软工1501B'},
-                        {id:'student02', number:'1534120012', avatar: 'http://pbl.mawenli.xyz/avatar2.png', name:'张四', classText:'软工1501B'},
-                    ]
-                }
-                this.classInfo = classInfo
-                bus.$emit('titleText', this.classInfo.name)
+                // let classInfo = {
+                //     id: 'class77',
+                //     name: '软工1501B',
+                //     num: 77,
+                //     student: [
+                //         {id:'student01', number:'1534120011', avatar: 'http://pbl.mawenli.xyz/avatar1.png', name:'张三', classText:'软工1501B'},
+                //         {id:'student02', number:'1534120012', avatar: 'http://pbl.mawenli.xyz/avatar2.png', name:'张四', classText:'软工1501B'},
+                //         {id:'student02', number:'1534120012', avatar: 'http://pbl.mawenli.xyz/avatar2.png', name:'张四', classText:'软工1501B'},
+                //     ]
+                // }
+                this.$axios.get(`/user/student/grade/${id}`,{pn:1, size:99}).then(res => {
+                    console.log('res: ', res)
+                    if (!res.data[0]) {
+                        this.nullTable = true;
+                    } else {
+                        this.classInfo = res.data;
+                    }
+                })
+                // this.classInfo = classInfo
             }
         },
         mounted() {
             const {id} = this.$route.params
             this.getClassDetail(id)
-        },
-        beforeDestroy() {
-            bus.$emit('titleText', '')
         }
         
     }
@@ -89,5 +95,12 @@ import bus from '../../bus'
         height: 0.6rem;
         vertical-align: middle;
     }
+}
+
+.null-table {
+    text-align: center;
+    background: #f1f1f1;
+    color: #666;
+    line-height: 0.8rem;
 }
 </style>
