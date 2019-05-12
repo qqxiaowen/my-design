@@ -5,6 +5,9 @@ import App from './App'
 import router from './router'
 import {$axios} from './utils'
 import 'normalize.css'
+import JsonExcel from 'vue-json-excel'
+
+Vue.component('downloadExcel', JsonExcel)
 
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'

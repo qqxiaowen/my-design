@@ -12,7 +12,11 @@ const components = {
     userInfo: () => import('@/views/personal/userInfo'),
     classInfo: () => import('@/views/studentInfo/classInfo.vue'),
     classInfoDetail: () => import('@/views/studentInfo/classInfoDetail.vue'),
-    course: () => import('../views/course/courseList.vue')
+    course: () => import('../views/course/courseList.vue'),
+    selectClock: () => import('../views/clock/selectClock.vue'),
+    commonClock: () => import('../views/clock/commonClock.vue'),
+    lookClock: () => import('../views/lookClock/lookClock.vue'),
+    lookClockDetail: () => import('../views/lookClock/lookClockDetail.vue'),
 }
 
 const router =  new Router({
@@ -82,6 +86,34 @@ const router =  new Router({
                     },
                     component: components.course
                 },
+                {
+                    path: 'selectClock',
+                    meta: {
+                        title: '选择课程'
+                    },
+                    component: components.selectClock
+                },
+                {
+                    path: 'commonClock',
+                    meta: {
+                        title: '普通考勤'
+                    },
+                    component: components.commonClock
+                },
+                {
+                    path: 'lookClock',
+                    meta: {
+                        title: '查看考勤'
+                    },
+                    component: components.lookClock
+                },
+                {
+                    path: 'lookClockDetail/:id',
+                    meta: {
+                        title: '查看考勤详情'
+                    },
+                    component: components.lookClockDetail
+                }
             ]
         }
     ]

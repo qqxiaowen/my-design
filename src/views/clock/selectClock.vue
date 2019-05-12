@@ -1,6 +1,6 @@
 <template>
     <div class="courseList">
-        <div class="course-text" v-text="courseName"></div>
+        <div class="course-text">请选择一门课</div>
         <div class="table-title">
             <div v-for="item in ['', '周一', '周二', '周三', '周四', '周五', '周六', '周日']" :key="item"> {{item}}</div>
         </div>
@@ -12,10 +12,10 @@
                 <div class="main-list" v-for="(aItem, aIndex) in course" :key="aIndex">
                     <div class="mian-item" v-for="(bItem, bIndex) in aItem" :key="bIndex">
                         <!-- 1 -->
-                        <div class="item-content" v-if="bItem._id">
+                        <div class="item-content" v-if="bItem._id" @click="handleclock(bItem)">
                             {{bItem.course_name.subjectName}} <br/>
                             {{bItem.classroom}} <br/>
-                            <span v-if="courseName == '班级课程信息'">{{bItem.teacher.username}}</span>
+                            <span v-if="user == '学生'">{{bItem.teacher.username}}</span>
                             <span v-else>{{bItem.grade.gradeName}}</span>
                         </div>
                     </div>
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+    import {Toast} from 'mint-ui';
     export default {
         data() {
             return {
@@ -39,7 +40,11 @@
                     [{},{},{},{},{}]
                 ],
                 url: '',
-                courseName: '教师课程信息',
+                user: '教师',
+                location: {},
+                gradeID: null,
+                courseID: null,
+                tacherID: null,
             }
         },
         methods: {
@@ -58,6 +63,7 @@
                     console.log(res)
 
                     res.data.forEach(item => {
+                        item.courseId = item._id;
 
                         item.time_site.forEach(tItem => {
                             course[tItem.day -1][tItem.node -1] = {...item, ...tItem};
@@ -65,6 +71,81 @@
                     })
                     this.course = course;
                 })
+            },
+
+            handleclock(ele) {
+                // console.log('ele: ', ele)
+                this.gradeID = ele.grade._id;
+                this.courseID =  ele.courseId;
+                this.tacherID = ele.teacher._id;
+                if (this.$route.query.type == 1) {
+                    // 普通考勤
+                    this.$router.push(`/layout/commonClock?grade=${ele.grade._id}&course=${ele.courseId}`)
+                } else if (this.$route.query.type == 2) {
+                    // 教师定位考勤
+                    // this.$router.push(`/layout/locationTeacherClock?grade=${ele.grade._id}&course=${ele._id}`)
+                    this.getLocation();
+                } else if (this.user = '学生') {
+                    // 学生定位考勤
+                    // this.$router.push(`/layout/locationStudentClock?grade=${ele.grade._id}&course=${ele._id}`)
+                    this.getLocation();
+                }
+            },
+
+            // 获取定位信息
+            getLocation() {
+
+                //获取当前位置(方法名)
+                mMap.getSessionLocation(() => {
+                        var data = JSON.parse(sessionStorage.getItem("location"));
+                        // console.log(data);
+                        console.log("您当前位置:"+data.formattedAddress);
+                        console.log("lng:"+data.position.lng);
+                        console.log("lat:"+data.position.lat);
+
+                        this.location = {
+                            lng: data.position.lng,
+                            lat: data.position.lat
+                        }
+
+                        if (this.user == '教师') {
+                            let clockName = new Date().toLocaleDateString() +" "+ new Date().toTimeString().substr(0, 5);
+
+                            this.$axios.post(`/clock/teacher`, {
+                                teacherLocation: this.location,
+                                grade: this.gradeID,
+                                course: this.courseID,
+                                clockName
+
+                            }).then(res => {
+                                if (res.code == 0) {
+                                    console.log('教师定位ok： ', res)
+                                    Toast('定位考勤成功，5分钟后接口关闭')
+                                } else if (res.code == 301) {
+                                    Toast('已发起过定位考勤')
+                                }
+                            })
+
+                        } else if (this.user == '学生') {
+
+                            this.$axios.post(`/clock/student`, {
+                                grade: this.gradeID,
+                                teacher: this.tacherID,
+                                studentLocation: this.location
+
+                            }).then(res => {
+                                if (res.code == 0) {
+                                    Toast(res.msg);
+                                    this.$router.push(`/layout/lookClock`);
+                                } else {
+                                    Toast(res.msg);
+                                }
+                            })
+                        }
+                        // console.log('location: ', this.location)
+                    }
+                );
+                
             }
         },
         mounted() {
@@ -80,8 +161,8 @@
                 this.url = `/course/teacher/${this.$store.state.userinfo._id}`
             } else {
                 // 学生用户
+                this.user = '学生'
                 this.url = `/course/grade/${this.$store.state.userinfo.grade._id}`
-                this.courseName = '班级课程信息'
             }
             this.getData()
         }
@@ -206,7 +287,7 @@
     overflow: hidden;
     justify-content: center;
     color: #666;
-
+    
     span {
         font-size: 12px;
     }

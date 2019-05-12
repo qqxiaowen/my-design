@@ -22,11 +22,13 @@ import Footer from '@/components/Footer'
 <style scoped lang='less'>
 .layout {
     height: 100%;
+    overflow: hidden;
 }
 .content {
-    height: 100%;
+    height: calc(100% - 2rem); 
     box-sizing: border-box;
-    padding: 1rem 0 ;
+    margin: 1rem 0 ;
     background: #fff;
+    overflow-y: auto;
 }
 </style>
