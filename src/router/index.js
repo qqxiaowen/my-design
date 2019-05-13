@@ -75,7 +75,7 @@ const router =  new Router({
                 {
                     path: 'classInfoDetail/:id',
                     meta: {
-                        title: '班级信息详情页'
+                        title: '班级详情页'
                     },
                     component: components.classInfoDetail
                 },
