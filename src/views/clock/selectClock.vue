@@ -103,6 +103,10 @@
                         console.log("lng:"+data.position.lng);
                         console.log("lat:"+data.position.lat);
 
+                        // alert("您当前位置:"+data.formattedAddress);
+                        // alert("lng:"+data.position.lng);
+                        // alert("lat:"+data.position.lat);
+
                         this.location = {
                             lng: data.position.lng,
                             lat: data.position.lat
