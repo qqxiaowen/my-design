@@ -126,10 +126,10 @@
         display: flex;
         position: relative;
         flex-direction: column;
-        justify-content: space-evenly;
+        justify-content: space-around;
         width: 4rem;
-        height: 4rem;
-        padding: 0 0.5rem;
+        height: 3rem;
+        padding: 0.5rem;
         margin: auto;
         background: #f1f1f1;
         border-radius: 4px;

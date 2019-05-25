@@ -16,11 +16,18 @@
   <script language="javascript" src="http://webapi.amap.com/maps?v=1.3&amp;key=e0ad56c4bfa8c11529259797cd9bab98"></script>
   <script src="./static/address.js"></script>
   <script>
-    function resizeWindow(){
+    function resizeWindow() {
       let deviceWidth = document.documentElement.clientWidth;
       let rootRem = deviceWidth / 7.2 //设计稿的宽度是720px
       document.documentElement.style.fontSize = rootRem + 'px'
     }
-    resizeWindow()
+
+    window.onresize = function() {
+      console.log('窗口变化')
+      resizeWindow();
+    }
+
+    resizeWindow();
+
   </script>
 </html>

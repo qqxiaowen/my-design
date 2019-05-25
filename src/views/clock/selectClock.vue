@@ -1,6 +1,6 @@
 <template>
     <div class="courseList">
-        <div class="course-text">请选择一门课</div>
+        <div class="course-text">请选择一门课 {{this.ceshi}}</div>
         <div class="table-title">
             <div v-for="item in ['', '周一', '周二', '周三', '周四', '周五', '周六', '周日']" :key="item"> {{item}}</div>
         </div>
@@ -8,7 +8,7 @@
             <div class="main-left">
                 <div v-for="item in ['第一节', '第二节', '第三节', '第四节', '第五节']" :key="item"><span>{{item}}</span></div>
             </div>
-            <div class="main-rigth">
+            <div class="main-right">
                 <div class="main-list" v-for="(aItem, aIndex) in course" :key="aIndex">
                     <div class="mian-item" v-for="(bItem, bIndex) in aItem" :key="bIndex">
                         <!-- 1 -->
@@ -45,6 +45,7 @@
                 gradeID: null,
                 courseID: null,
                 tacherID: null,
+                ceshi: ''
             }
         },
         methods: {
@@ -138,9 +139,10 @@
                                 studentLocation: this.location
 
                             }).then(res => {
+                                this.ceshi = res.distance;
                                 if (res.code == 0) {
                                     Toast(res.msg);
-                                    this.$router.push(`/layout/lookClock`);
+                                    // this.$router.push(`/layout/lookClock`);
                                 } else {
                                     Toast(res.msg);
                                 }
@@ -208,16 +210,17 @@
         width: 12.5%;
         display: flex;
         flex-direction: column;
+        justify-content: space-around;
         background: #b4c7dd;
         color: #666;
+        border-right: 2px solid #f1f1f1;
+        box-sizing: border-box;
 
         div {
             display: flex;
-            flex-direction: column;
-            height: 20%;
+            flex: 1;
             padding: 0 10px;
             border-top: 2px solid #f1f1f1;
-            border-right: 2px solid #f1f1f1;
 
             &:first-child {
                 border-top: none;
@@ -231,7 +234,7 @@
     }
 }
 
-.main-rigth {
+.main-right {
     display: flex;
     flex: 1;
     justify-content: space-between;
@@ -241,7 +244,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     border-right: 2px solid #f1f1f1;
 
@@ -269,11 +272,11 @@
         border-right: none;
 
     }
+    
     .mian-item {
-        display: flex;
-        width: 100%;
-        height: 100%;
         border-bottom: 2px solid #f1f1f1;
+        width: 100%;
+        flex: 1;
         overflow: hidden;
 
         &:last-child {
