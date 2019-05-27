@@ -139,7 +139,8 @@
                                 studentLocation: this.location
 
                             }).then(res => {
-                                this.ceshi = res.distance;
+                                // 测试定位接口
+                                // this.ceshi = res.distance;
                                 if (res.code == 0) {
                                     Toast(res.msg);
                                     // this.$router.push(`/layout/lookClock`);
